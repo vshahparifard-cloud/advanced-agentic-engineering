@@ -952,7 +952,7 @@
         ],
         "notes": "node labs/session-4/gateway.mjs را اجرا کنید. این یک شبیه‌ساز قطعی برای تمرین سیاست است و جای اجرای واقعی LiteLLM معرفی نمی‌شود. مسیر زنده در فایل‌های جدا آماده است.",
         "duration": 5,
-        "code": "node labs/session-4/gateway.mjs\nnode --test labs/session-4/*.test.mjs\n# Optional live gateway:\nlitellm --config labs/session-4/litellm.yaml --port 4000"
+        "code": "node labs/session-4/gateway.mjs\nnode --test labs/session-4/*.test.mjs\n# Optional live gateway:\n.venv/bin/litellm --config labs/session-4/litellm.yaml --port 4000"
       },
       {
         "title": "آزمایشگاه: خط پایهٔ قطعی",

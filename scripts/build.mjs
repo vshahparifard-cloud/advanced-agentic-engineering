@@ -45,11 +45,11 @@ execFileSync('python3',['-c',`from pathlib import Path
 from zipfile import ZipFile,ZIP_DEFLATED
 root=Path(${JSON.stringify(root)})
 with ZipFile(root/'dist/downloads/course-labs.zip','w',ZIP_DEFLATED) as z:
- for folder in ['labs','docs','content']:
+ for folder in ['labs','docs','content','scripts','tests','assets','.github']:
   for p in (root/folder).rglob('*'):
-   if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.pyc']:
+   if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.pyc','.woff2']:
     z.write(p,p.relative_to(root))
- for name in ['requirements.txt','requirements-live.txt','README.md','LICENSE','package.json']:
+ for name in ['requirements.txt','requirements-live.txt','README.md','LICENSE','package.json','index.html','.gitignore']:
   z.write(root/name,name)
 `]);
 console.log(`Built ${course.length} decks, ${course.reduce((n,s)=>n+s.slides.length,0)} slides, ${docs.length} documents and lab ZIP.`);

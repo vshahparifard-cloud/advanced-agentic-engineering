@@ -30,7 +30,7 @@ function showSlide(){
  document.querySelectorAll('#toc button').forEach((b,i)=>b.setAttribute('aria-current',String(i===index)));
  document.querySelector('.slide-area').scrollTop=0;
  storage.set(`aae-slide-${session.id}`,index);
- history.replaceState(null,'',`#slide-${index+1}`);
+ history.replaceState(null,'',`${location.pathname}${location.search}#slide-${index+1}`);
  document.title=`${d.title} | جلسهٔ ${fa(session.id)}`;
 }
 function openDeck(id){

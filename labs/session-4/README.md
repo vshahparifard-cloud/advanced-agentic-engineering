@@ -27,7 +27,7 @@ python3 labs/session-4/live.py
 ## LiteLLM واقعی
 ```sh
 .venv/bin/pip install -r requirements-live.txt
-litellm --config labs/session-4/litellm.yaml --port 4000
+.venv/bin/litellm --config labs/session-4/litellm.yaml --port 4000
 ```
 PRIMARY_MODEL و BACKUP_MODEL را به شناسه‌های LiteLLM با پیشوند provider مانند openrouter/ تنظیم کنید. OPENROUTER_API_KEY و LITELLM_MASTER_KEY نیز باید در محیط فرایند proxy موجود باشند. در ترمینال دوم:
 ```sh
