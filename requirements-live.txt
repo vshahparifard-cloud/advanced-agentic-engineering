@@ -1,0 +1,4 @@
+-r requirements.txt
+graphiti-core>=0.20,<1
+langfuse>=3,<4
+litellm[proxy]>=1.70,<2

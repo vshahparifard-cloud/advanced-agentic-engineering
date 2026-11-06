@@ -1,0 +1,16 @@
+model_list:
+  - model_name: course-primary
+    litellm_params:
+      model: os.environ/PRIMARY_MODEL
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: course-backup
+    litellm_params:
+      model: os.environ/BACKUP_MODEL
+      api_key: os.environ/OPENROUTER_API_KEY
+router_settings:
+  num_retries: 1
+  timeout: 20
+  fallbacks:
+    - course-primary: [course-backup]
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

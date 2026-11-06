@@ -1,0 +1,4 @@
+sandbox_mode = "read-only"
+approval_policy = "on-request"
+# Copy selectively into your trusted project's .codex/config.toml.
+# To authorize bounded editing, choose workspace-write deliberately.

@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "reviewed",
+        "blocked"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "evidence",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tests": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "findings",
+    "tests"
+  ],
+  "additionalProperties": false
+}

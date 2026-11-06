@@ -1,0 +1,12 @@
+{
+  "name": "advanced-agentic-engineering",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --directory dist",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs labs/session-*/*.test.mjs",
+    "check": "npm test && python3 -m unittest discover -s labs/session-5 -p \"test_*.py\" && python3 -m unittest discover -s labs/session-6 -p \"test_*.py\" && npm run build"
+  }
+}
