@@ -15,7 +15,12 @@
 ## نسخه‌های SDK و قرارداد زنده
 MCP 1.30.0، Graphiti 0.31.2، Langfuse 3.15.0 و LiteLLM 1.102.4 نصب شدند. امضاهای Graphiti.add_episode و Graphiti.search و Langfuse generation.update با کد نمونه تطبیق داده شدند. config درگاه parse شد. این بررسی، اجرای زندهٔ سرویس‌ها یا کیفیت پاسخ مدل را تأیید نمی‌کند.
 
+## آزمون بستهٔ دانلود
+بستهٔ ZIP در پوشهٔ موقت مستقل استخراج شد و npm run check شامل همهٔ آزمون‌ها و ساخت مجدد با موفقیت اجرا شد. بسته شامل کد، منابع ساخت، فونت، یادداشت‌ها و آزمایشگاه‌هاست.
+
 ## CI و انتشار
 اجرای اولیهٔ GitHub Actions شمارهٔ 42193637802 روی commit e1ab0ef446344ff81654c92db0b7ee6ff6a7021c، نصب SDK، تمام آزمون‌ها، ساخت سایت، smoke MCP و پیوندهای محلی را موفق گذراند. مرحلهٔ Configure Pages شکست خورد؛ Pages برای مخزن تازه هنوز فعال نشده بود.
 
 ابزارهای GitHub MCP موجود عملیات تنظیم Pages ندارند. GitHub CLI و مرورگر این محیط ورود فعال ندارند. فعال‌سازی Settings → Pages → GitHub Actions یا ورود مجاز CLI لازم است؛ سپس workflow باید دوباره اجرا و URL واقعی بررسی شود. تا آن زمان انتشار موفق ادعا نمی‌شود.
+
+اجرای آخر بررسی‌شده: https://github.com/vshahparifard-cloud/advanced-agentic-engineering/actions/runs/42194411462 روی commit 2e281bc5a7afb7adae407a14fbdf1e09f49089df. آزمون‌ها، MCP و پیوندها موفق؛ Configure Pages ناموفق و deploy اجرا نشد. بررسی مستقیم URL مورد انتظار پاسخ HTTP 404 داد.
