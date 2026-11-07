@@ -16,9 +16,11 @@ function cards(query=''){
  $('empty').hidden=visible.length>0;$('result-count').textContent=`${fa(visible.length)} جلسه`;
 }
 function diagram(nodes){return `<div class="diagram" aria-label="نمودار معماری">${nodes.map((n,i)=>`${i?'<i aria-hidden="true">←</i>':''}<span>${esc(n)}</span>`).join('')}</div>`;}
-function slideContent(s,i,print=false){const d=s.slides[i];return `<div class="slide-kicker" lang="en">SESSION ${String(s.id).padStart(2,'0')} / ${String(i+1).padStart(2,'0')}</div><h3>${esc(d.title)}</h3><ul>${d.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>${d.diagram?diagram(d.diagram):''}${d.code?`<pre><code>${esc(d.code)}</code></pre>${print?'':'<button class="copy-code" type="button">کپی فرمان‌ها</button>'}`:''}${d.quiz&&!print?`<section class="quiz"><h4>${esc(d.quiz.question)}</h4>${d.quiz.options.map((o,n)=>`<button data-answer="${n}">${esc(o)}</button>`).join('')}<p class="quiz-feedback" role="status"></p></section>`:''}${print&&d.quiz?`<p><b>پرسش: </b>${esc(d.quiz.question)}</p><p>پاسخ: ${esc(d.quiz.options[d.quiz.answer])} — ${esc(d.quiz.explanation)}</p>`:''}`;}
+function comparisonTable(table){return `<div class="comparison-wrap"><table class="slide-comparison"><caption>${esc(table.caption)}</caption><thead><tr>${table.headings.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row=>`<tr>${row.map((cell,i)=>i===0?`<th scope="row">${esc(cell)}</th>`:`<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function slideContent(s,i,print=false){const d=s.slides[i];return `<div class="slide-kicker" lang="en">SESSION ${String(s.id).padStart(2,'0')} / ${String(i+1).padStart(2,'0')}</div><h3>${esc(d.title)}</h3><ul>${d.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>${d.comparison?comparisonTable(d.comparison):''}${d.diagram?diagram(d.diagram):''}${d.code?`<pre><code>${esc(d.code)}</code></pre>${print?'':'<button class="copy-code" type="button">کپی نمونه</button>'}`:''}${d.quiz&&!print?`<section class="quiz"><h4>${esc(d.quiz.question)}</h4>${d.quiz.options.map((o,n)=>`<button data-answer="${n}">${esc(o)}</button>`).join('')}<p class="quiz-feedback" role="status"></p></section>`:''}${print&&d.quiz?`<p><b>پرسش: </b>${esc(d.quiz.question)}</p><p>پاسخ: ${esc(d.quiz.options[d.quiz.answer])} — ${esc(d.quiz.explanation)}</p>`:''}${d.sources?`<p class="slide-sources">منابع رسمی: ${d.sources.map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`).join(' · ')}</p>`:''}`;}
 function showSlide(){
  const d=session.slides[index];
+ $('slide').classList.toggle('comparison-slide',Boolean(d.comparison));
  $('slide').innerHTML=slideContent(session,index);
  $('deck-title').textContent=session.title;
  $('deck-meta').textContent=`جلسهٔ ${fa(session.id)} · ${session.en}`;
@@ -58,7 +60,7 @@ $('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await docume
 $('slide').onclick=async event=>{
  const answer=event.target.closest('[data-answer]');
  if(answer){const q=session.slides[index].quiz;const selected=Number(answer.dataset.answer);const feedback=$('slide').querySelector('.quiz-feedback');answer.classList.add(selected===q.answer?'correct':'wrong');feedback.textContent=(selected===q.answer?'پاسخ درست است. ':'دوباره بررسی کنید. ')+q.explanation;}
- if(event.target.closest('.copy-code')){try{await navigator.clipboard.writeText(session.slides[index].code);notify('فرمان‌ها کپی شدند.');}catch{notify('امکان کپی خودکار نیست؛ متن فرمان را انتخاب کنید.');}}
+ if(event.target.closest('.copy-code')){try{await navigator.clipboard.writeText(session.slides[index].code);notify('نمونه کپی شد.');}catch{notify('امکان کپی خودکار نیست؛ متن نمونه را انتخاب کنید.');}}
 };
 $('print-deck').onclick=()=>{
  document.querySelector('.print-only')?.remove();const printable=document.createElement('div');printable.className='print-only';
