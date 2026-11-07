@@ -16,7 +16,7 @@
 6. PR و MR فقط normalize می‌شوند؛ نوشتن، پیام و merge در مثال آموزشی فعال نیست.
 
 ## قرارداد دادهٔ سایت
-content/course.json آرایهٔ شش جلسه است. هر جلسه id، title، en، description، tags، duration و slides دارد. هر اسلاید title، points، notes و duration=5 دارد. اسلاید یازدهم diagram، دوازدهم code و بیست‌وسوم quiz دارد. تمام متن در رابط escape می‌شود و هیچ HTML از JSON اجرا نمی‌شود.
+content/course.json آرایهٔ شش جلسه است. هر جلسه id، title، en، description، tags، duration و slides دارد. هر اسلاید title، points، notes و duration دارد؛ جمع زمان هر جلسه ۱۲۰ دقیقه است. جلسهٔ اول ۲۵ و بقیهٔ جلسه‌ها ۲۴ اسلاید دارند. فیلدهای اختیاری diagram، code و quiz براساس محتوای اسلاید تنظیم می‌شوند. تمام متن در رابط escape می‌شود و هیچ HTML از JSON اجرا نمی‌شود.
 
 ## پایداری و کارکرد مرورگر
 ذخیرهٔ پیشرفت و شمارهٔ اسلاید در localStorage است و به دستگاه محدود می‌شود. خاموش بودن storage نباید مانع مطالعه شود. فایل‌های سیلابس و یادداشت‌های HTML بدون JavaScript خوانده می‌شوند. شبکهٔ خارجی یا CDN برای نمایش فونت و سایت لازم نیست؛ دانلود اولیهٔ سایت اینترنت می‌خواهد.
