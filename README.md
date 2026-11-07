@@ -1,5 +1,5 @@
 # Advanced Agentic AI Engineering
-دورهٔ فارسی و RTL مهندسی پیشرفتهٔ ایجنت‌های هوش مصنوعی: **۶ جلسهٔ دوساعته، ۱۴۵ اسلاید محتوایی، ۷۲۰ دقیقه**.
+دورهٔ فارسی و RTL مهندسی پیشرفتهٔ ایجنت‌های هوش مصنوعی: **۶ جلسهٔ دوساعته، ۱۴۷ اسلاید محتوایی، ۷۲۰ دقیقه**.
 
 - وب‌سایت: https://vshahparifard-cloud.github.io/advanced-agentic-engineering/
 - منبع: https://github.com/vshahparifard-cloud/advanced-agentic-engineering
@@ -14,7 +14,7 @@ npm run dev
 ابتدا build با check تولید می‌شود. dev خروجی dist را روی http://localhost:4173 سرو می‌کند. برای ویرایش، پس از تغییر npm run build اجرا کنید.
 
 ## ساختار
-- content/course.json: منبع شش ارائه؛ ۲۴ تا ۲۵ اسلاید، زمان، یادداشت، نمودار و سنجش برای هر جلسه.
+- content/course.json: منبع شش ارائه؛ ۲۴ تا ۲۷ اسلاید، زمان، یادداشت، نمودار و سنجش برای هر جلسه.
 - assets: رابط فارسی، نمایشگر تعاملی، فونت محلی و سبک چاپ.
 - labs/session-1 تا session-6: پیاده‌سازی، آزمون، راهنمای گام‌به‌گام و پاسخ مرجع.
 - docs: سیلابس، شش دفترچهٔ مدرس، معماری، منابع و rubric پروژه.

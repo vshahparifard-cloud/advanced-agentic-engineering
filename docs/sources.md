@@ -55,7 +55,14 @@
 پیش از هر دوره نسخهٔ CLI و dependencyها را ثبت کنید؛ smoke test را اجرا کنید؛ نام مدل را از کاتالوگ واقعی بردارید؛ لینک‌ها و entitlement را بررسی کنید. هیچ توکن ورود، secret یا فایل auth را در مخزن عمومی قرار ندهید.
 
 ## تکمیل جلسهٔ اول — تحویل Claude Code محلی به Codex
-در ۷ نوامبر ۲۰۲۶، قرارداد resume و تنظیم config.toml از مستند رسمی Codex و راهنمای حافظهٔ پروژه از مستند رسمی Claude Code بررسی شدند. گردش‌کار HANDOFF.md در این دوره روش پیشنهادی تحویل هدف، تصمیم، وضعیت فایل‌ها و قدم بعدی است؛ مدرک پشتیبانی یک فرمان import برای تاریخچهٔ داخلی Claude به Codex ارائه نشده است و چنین قابلیتی در درس ادعا نمی‌شود.
+در ۷ نوامبر ۲۰۲۶، قرارداد resume و تنظیم config.toml از مستند رسمی Codex و راهنمای حافظهٔ پروژه از مستند رسمی Claude Code بررسی شدند. گردش‌کار HANDOFF.md در این دوره روش پیشنهادی تحویل هدف، تصمیم، وضعیت فایل‌ها و قدم بعدی است؛ در بازبینی تکمیلی، /import رسمی Codex برای ورود موارد پشتیبانی‌شده و چت‌های اخیر Claude Code تأیید و به درس اضافه شد؛ روش HANDOFF همچنان یک مسیر عمومی و گزینشی است.
 
 - [قالب TOML](https://toml.io/en/): قالب متن ساختاریافتهٔ تنظیمات.
 - [Persistence در LangGraph](https://docs.langchain.com/oss/python/langgraph/persistence): کاربرد فنی checkpointer در ذخیره و بازیابی state؛ جدا از یادداشت وضعیت سادهٔ این جلسه.
+
+## تکمیل مدیریت نشست — Fork، Branch و Import
+- [فرمان‌های Codex](https://learn.chatgpt.com/docs/developer-commands?surface=cli): /fork و قابلیت‌های مدیریت نشست.
+- [Import از عامل دیگر](https://learn.chatgpt.com/docs/import): مسیر رسمی ورود موارد انتخاب‌شده؛ توضیح قبلی صرفاً HANDOFF را پوشش می‌داد و اکنون اصلاح شده است.
+- [فرمان‌های Claude Code](https://code.claude.com/docs/en/commands): تفاوت /branch، /fork و /btw در مستند فعلی.
+- [فرمان‌های Antigravity CLI](https://antigravity.google/docs/cli/using/): /fork با workspace موجود.
+- [Checkpointing در Claude](https://code.claude.com/docs/en/checkpointing): دامنه و محدودیت بازگردانی.
