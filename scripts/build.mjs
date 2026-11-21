@@ -35,10 +35,10 @@ function markdown(source){
 }
 mkdirSync(join(out,'docs'),{recursive:true});
 const docs=readdirSync(join(root,'docs')).filter(p=>p.endsWith('.md')).map(p=>({name:p.replace('.md','.html'),text:readFileSync(join(root,'docs',p),'utf8')}));
-for(let i=1;i<=6;i++)docs.push({name:`lab-${i}.html`,text:readFileSync(join(root,`labs/session-${i}/README.md`),'utf8')});
+for(let i=1;i<=course.length;i++)docs.push({name:`lab-${i}.html`,text:readFileSync(join(root,`labs/session-${i}/README.md`),'utf8')});
 for(const doc of docs){const title=doc.text.split('\n')[0].replace(/^#\s*/,'');let body=markdown(doc.text);
  if(doc.name==='architecture.html')body+=course.map(s=>`<h2>جلسهٔ ${s.id}: ${esc(s.title)}</h2><div class="diagram">${s.slides.find(d=>d.diagram).diagram.map(n=>`<span>${esc(n)}</span>`).join('<i>←</i>')}</div>`).join('');
- writeFileSync(join(out,'docs',doc.name),`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><link rel="icon" href="../assets/icon.svg"><link rel="stylesheet" href="../assets/style.css"></head><body class="doc-body"><header class="header"><div class="container nav"><a class="brand" href="../index.html">⌘ مهندسی ایجنتیک</a><nav><a href="syllabus.html">سیلابس</a><a href="instructor.html">مدرس</a><a href="sources.html">منابع رسمی</a><a href="architecture.html">معماری</a></nav></div></header><main class="doc container">${body}</main><footer class="container footer"><a href="../index.html">بازگشت به دوره ←</a><span>۶ جلسه · ۱۲ ساعت</span></footer></body></html>`);
+ writeFileSync(join(out,'docs',doc.name),`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><link rel="icon" href="../assets/icon.svg"><link rel="stylesheet" href="../assets/style.css"></head><body class="doc-body"><header class="header"><div class="container nav"><a class="brand" href="../index.html">⌘ مهندسی ایجنتیک</a><nav><a href="syllabus.html">سیلابس</a><a href="instructor.html">مدرس</a><a href="sources.html">منابع رسمی</a><a href="architecture.html">معماری</a></nav></div></header><main class="doc container">${body}</main><footer class="container footer"><a href="../index.html">بازگشت به دوره ←</a><span>۷ جلسه · ۱۴ ساعت</span></footer></body></html>`);
 }
 mkdirSync(join(out,'downloads'),{recursive:true});
 execFileSync('python3',['-c',`from pathlib import Path
@@ -49,7 +49,7 @@ with ZipFile(root/'dist/downloads/course-labs.zip','w',ZIP_DEFLATED) as z:
   for p in (root/folder).rglob('*'):
    if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.pyc','.woff2']:
     z.write(p,p.relative_to(root))
- for name in ['requirements.txt','requirements-live.txt','README.md','LICENSE','package.json','index.html','.gitignore']:
+ for name in ['requirements-live.txt','README.md','LICENSE','package.json','index.html','.gitignore']:
   z.write(root/name,name)
 `]);
 console.log(`Built ${course.length} decks, ${course.reduce((n,s)=>n+s.slides.length,0)} slides, ${docs.length} documents and lab ZIP.`);

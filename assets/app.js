@@ -9,7 +9,7 @@ let course=[],session=null,index=0,opener=null;
 const dialog=$('viewer');
 const normalize=text=>text.toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک');
 function notify(text){$('toast').textContent=text;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2500);}
-function progress(){const done=storage.get('aae-complete',[]);$('course-progress').value=done.length;$('progress-label').textContent=`${fa(done.length)} از ۶ جلسه مطالعه شده`;}
+function progress(){const done=storage.get('aae-complete',[]);$('course-progress').value=done.length;$('progress-label').textContent=`${fa(done.length)} از ${fa(course.length)} جلسه مطالعه شده`;}
 function cards(query=''){
  const done=storage.get('aae-complete',[]), q=normalize(query.trim());
  const visible=course.filter(s=>normalize([s.title,s.en,s.description,...s.tags,...s.slides.map(x=>x.title)].join(' ')).includes(q));

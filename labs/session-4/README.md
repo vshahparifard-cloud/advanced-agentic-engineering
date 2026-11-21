@@ -1,46 +1,55 @@
-# آزمایشگاه 4 — درگاه، fallback و trace
+# آزمایشگاه 4 — هارنس‌ها و مدل‌های جایگزین
 
 ## پیش از کلاس
-Node.js 22 یا بالاتر، Python 3.11 یا بالاتر و Git لازم است. تمرین را در یک checkout آموزشی اجرا کنید. هیچ کلید یا فایل ورود را commit نکنید. همهٔ فرمان‌ها از ریشهٔ مخزن هستند مگر مسیر دیگری ذکر شود. فایل‌های کامل و پاسخ مرجع همراه تمرین‌اند؛ فعالیت کلاس بازبینی، تغییر کنترل‌شده و آزمون شکست است.
+Node.js 22+ و Python 3.11+ لازم است. Claude Code برای آزمایشگاه ۱ کافی است و **هیچ کلیدی لازم ندارد**. برای آزمایشگاه ۲ یکی از این‌ها لازم است: کلید DeepSeek، کلید OpenRouter یا Codex 0.164+. همهٔ فرمان‌ها از ریشهٔ مخزن هستند. هیچ کلیدی را در فایل یا مخزن ننویسید؛ همهٔ نمونه‌ها کلید را از متغیر محیطی می‌خوانند.
 
-## هدف و خروجی
-سیاست failover و هزینه را قطعی آزمون کنید؛ سپس در صورت داشتن اعتبار، همان درخواست مصنوعی را به OpenRouter، LiteLLM و Langfuse متصل کنید. زمان عملی: ۲۵ دقیقه. نصب سرویس‌ها پیش از کلاس است.
-## مسیر آفلاین — ۱۰ دقیقه
+## هدف
+هارنس (Claude Code، Codex) را از مدل جدا ببینید: همان هارنس، مقصد متفاوت.
+
+| فایل | کاربرد |
+| --- | --- |
+| `mock-anthropic.mjs` | سرور محلی که پروتکل Anthropic Messages را تقلید می‌کند و هر درخواست را خلاصه می‌کند؛ کلید را هرگز ثبت نمی‌کند |
+| `configs/claude-mock.sh` | Claude Code ← سرور جعلی |
+| `configs/claude-deepseek.sh` | Claude Code ← DeepSeek (طبق راهنمای رسمی DeepSeek) |
+| `configs/claude-openrouter.sh` | Claude Code ← OpenRouter |
+| `configs/codex-deepseek.config.toml` | Codex ← DeepSeek با Responses API |
+| `configs/codex-openrouter-claude.config.toml` | Codex ← مدل Claude از راه OpenRouter |
+| `configs/opencode.json` | OpenCode ← DeepSeek |
+
+## آزمون قطعی
 ```sh
-node labs/session-4/gateway.mjs
-node --test labs/session-4/gateway.test.mjs
+node --test labs/session-4/mock.test.mjs
+python3 -m unittest discover -s labs/session-4 -p "test_*.py"
 ```
-نتیجه: primary با 503 شکست می‌خورد، fallback متن می‌دهد، دو رخداد trace و هزینهٔ 0.003 ثبت می‌شوند. نرخ و هزینهٔ مثال فرضی است. در شبیه‌ساز، شکست پیش از تولید پاسخ رخ می‌دهد و هزینهٔ آن صفر است؛ این فرض به provider واقعی تعمیم ندارد. reserve تنها کنترل پیش از درخواست برای یک کار است، نه ledger سازمانی یا سقف سخت صورتحساب.
-## گام‌های کلاس
-1. پنج دقیقه: مسیر آفلاین را اجرا و ترتیب trace را توضیح دهید.
-2. پنج دقیقه: آزمون 400 و budget=0 را بررسی کنید؛ provider دوم نباید فراخوانی شود.
-3. پنج دقیقه: config واقعی LiteLLM را بخوانید و دو مدل مجاز حساب را انتخاب کنید.
-4. پنج دقیقه: در صورت دسترسی، live.py را مستقیم یا از درگاه اجرا کنید؛ بدون حساب، fixture را با schema نتیجه مقایسه کنید.
-5. پنج دقیقه: trace واقعی یا نمونهٔ آفلاین را با rubric کیفیت ارزیابی و وضعیت اجرای زنده را ثبت کنید.
-## OpenRouter واقعی
-کلید را از محیط امن خود تنظیم کنید. MODEL باید شناسهٔ موجود در کاتالوگ و حساب شما باشد؛ عمداً نام مدل ثابت در کد تحمیل نشده است.
+آزمون‌ها شکل پاسخ عادی و streaming سرور جعلی، نبودن کلید در خلاصهٔ لاگ و فایل‌های نمونه، و معتبر بودن TOML تنظیمات Codex را بررسی می‌کنند.
+
+## آزمایشگاه ۱ — هارنس چه می‌فرستد؟ (۶ دقیقه)
 ```sh
-export MODEL='شناسهٔ واقعی مدل از کاتالوگ حساب'
-python3 labs/session-4/live.py
+node labs/session-4/mock-anthropic.mjs                 # ترمینال اول
+./labs/session-4/configs/claude-mock.sh -p "سلام"     # ترمینال دوم
 ```
-پیش از اجرا OPENROUTER_API_KEY را در محیط تنظیم کنید. پاسخ باید model، usage و متن داشته باشد. این اجرا هزینه دارد و تنها در صورت اعتبار و انتخاب مدل انجام می‌شود؛ سایت عمومی هیچ فراخوان پولی انجام نمی‌دهد.
-## LiteLLM واقعی
+انتظار: پاسخ «پاسخ از مدل آموزشی محلی…» در ترمینال دوم، و در ترمینال اول یک خط JSON برای هر درخواست با `model`، `system_chars`، `tools`، `tool_names`، `thinking` و `anthropic_beta`.
+
+اجرای واقعی با Claude Code نسخهٔ 2.1.330 (۲۱ نوامبر ۲۰۲۶): پاسخ جعلی چاپ شد؛ سرور ۱۳ ابزار، ۷۰۸۲ نویسه prompt سیستم، `thinking: adaptive` و چند هدر beta دید. Claude Code هشدار داد نام مدل را نمی‌شناسد و پنجرهٔ ۱ میلیون توکن فرض می‌کند. عددها به تنظیمات، پلاگین‌ها و MCPهای هر سیستم بستگی دارند.
+
+پرسش کلاس: اگر هر نوبت حدود ۷ هزار نویسه prompt سیستم و تعریف ابزار تکرار شود، بدون prompt caching هزینه چطور رشد می‌کند؟
+
+## آزمایشگاه ۲ — یک کار، دو مدل (۶ دقیقه)
 ```sh
-.venv/bin/pip install -r requirements-live.txt
-.venv/bin/litellm --config labs/session-4/litellm.yaml --port 4000
+export DEEPSEEK_API_KEY=...
+./labs/session-4/configs/claude-deepseek.sh
 ```
-PRIMARY_MODEL و BACKUP_MODEL را به شناسه‌های LiteLLM با پیشوند provider مانند openrouter/ تنظیم کنید. OPENROUTER_API_KEY و LITELLM_MASTER_KEY نیز باید در محیط فرایند proxy موجود باشند. در ترمینال دوم:
-```sh
-export BASE_URL=http://localhost:4000/v1
-export MODEL=course-primary
-python3 labs/session-4/live.py
-```
-GATEWAY_API_KEY باید همان master key خصوصی درگاه باشد. درگاه را روی اینترنت عمومی بدون سیاست هویت و بودجه منتشر نکنید.
-## Langfuse واقعی
-LANGFUSE_PUBLIC_KEY، LANGFUSE_SECRET_KEY و LANGFUSE_BASE_URL را برای پروژهٔ خود تنظیم کنید. با همان متغیرهای مدل:
-```sh
-.venv/bin/python labs/session-4/trace_live.py
-```
-در داشبورد course-routing و یک generation تو در تو باید دیده شوند. flush پیش از خروج انجام می‌شود. فقط دادهٔ مصنوعی ارسال می‌شود؛ ثبت کامل prompt خصوصی را بدون سیاست سازمان روشن نکنید.
-## پاسخ و معیار تحویل
-چهار آزمون gateway موفق؛ رد 400 بدون fallback؛ رد بودجه پیش از call؛ rubric شامل صحت، استناد و ساختار. با قطع provider اول، config fallback باید به مدل پشتیبان مجاز برود. شواهد اجرای سرویس واقعی را جدا از نتیجهٔ شبیه‌ساز تحویل دهید.
+داخل Claude Code فرمان `/status` را بزنید تا آدرس و اعتبار فعال را ببینید.
+
+Codex: فایل `configs/codex-deepseek.config.toml` را در `~/.codex/deepseek.config.toml` کپی کنید و `codex --profile deepseek` را اجرا کنید. `model_provider` فقط در تنظیمات سطح کاربر خوانده می‌شود، نه در `.codex/config.toml` پروژه.
+
+کار پیشنهادی: «یک قاعدهٔ ممنوعیت `!important` به `labs/session-3/starter/hooks/lib.mjs` اضافه کن و آزمونش را بنویس.» زمان، هزینه، تعداد فراخوانی ابزار و سبز شدن آزمون را برای هر مدل در جدول کلاس ثبت کنید.
+
+## پاسخ مرجع
+- چرا `ANTHROPIC_API_KEY` را خالی می‌کنیم؟ تا کلید Anthropic احتمالی در محیط جایگزین اعتبار درگاه نشود؛ OpenRouter صریحاً خالی بودن آن را می‌خواهد.
+- چرا Codex با نقطهٔ پایانی OpenAI-compatible خود Anthropic کار نمی‌کند؟ آن لایه فقط Chat Completions است و Codex فقط Responses API را می‌فهمد.
+- چرا prompt caching مهم است؟ سرویس‌دهنده‌ای که `cache_control` را نادیده بگیرد خطا نمی‌دهد، ولی هر نوبت را با قیمت کامل حساب می‌کند.
+- اشتراک Claude Pro/Max در OpenCode یا Kilo؟ طبق قواعد Anthropic مجاز نیست؛ برای ابزار شخص ثالث API Key لازم است.
+
+## محدودیت‌ها
+مسیرهای DeepSeek، OpenRouter و Codex در این مخزن از مستند رسمی هر سرویس برداشته شده‌اند ولی به دلیل نیاز به کلید پولی به‌صورت زنده اجرا نشده‌اند. استفاده از `env_key` در نمونهٔ Codex به جای `experimental_bearer_token` راهنمای DeepSeek، انتخاب امن‌تر این دوره است. Anthropic مسیر مدل غیر Claude در Claude Code را پشتیبانی یا ممیزی نمی‌کند. نام مدل‌ها مرتب تغییر می‌کنند؛ پیش از کلاس از صفحهٔ هر سرویس‌دهنده بررسی کنید.

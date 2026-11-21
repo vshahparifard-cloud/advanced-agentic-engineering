@@ -1,0 +1,13 @@
+# Codex harness + DeepSeek (api-docs.deepseek.com, Codex integration; Codex 0.164+).
+# Copy to ~/.codex/deepseek.config.toml and run: codex --profile deepseek
+# model_provider is honored only in user-level config, not in a project's .codex/config.toml.
+model = "deepseek-flash"
+model_provider = "deepseek"
+model_reasoning_effort = "high"
+
+[model_providers.deepseek]
+name = "DeepSeek"
+base_url = "https://api.deepseek.com/"
+wire_api = "responses"            # Codex speaks only the Responses API; "chat" was removed
+env_key = "DEEPSEEK_API_KEY"      # read the key from the environment, never store it here
+supports_standalone_web_search = true

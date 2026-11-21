@@ -1,47 +1,33 @@
-# آزمایشگاه 6 — Headless، PR و بازیابی
+# آزمایشگاه 6 — حافظهٔ زمانی و Graphiti
 
 ## پیش از کلاس
 Node.js 22 یا بالاتر، Python 3.11 یا بالاتر و Git لازم است. تمرین را در یک checkout آموزشی اجرا کنید. هیچ کلید یا فایل ورود را commit نکنید. همهٔ فرمان‌ها از ریشهٔ مخزن هستند مگر مسیر دیگری ذکر شود. فایل‌های کامل و پاسخ مرجع همراه تمرین‌اند؛ فعالیت کلاس بازبینی، تغییر کنترل‌شده و آزمون شکست است.
 
 ## هدف و خروجی
-یک job محدود با وضعیت ماندگار، timeout و جلوگیری از تکرار اجرا کنید. سپس دادهٔ PR و MR را بدون اثر خارجی به برنامهٔ بازبینی تبدیل کنید. زمان فعالیت: ۲۵ دقیقه.
-## گام‌ها — هر گام ۵ دقیقه
-1. report.schema.json را بخوانید و یک گزارش مصنوعی با شاهد فایل بسازید.
-2. با حساب مجاز CLI رسمی را read-only اجرا کنید، یا fixture را بازبینی کنید. stdout و stderr باید جدا باشند.
-3. runner را دو بار اجرا کنید؛ بار دوم skipped است. سپس آزمون شکست و timeout را بخوانید.
-4. state ناتمام را unknown بدانید. اثر خارجی را پیش از retry بررسی کنید.
-5. fixture هر دو میزبان را normalize کنید؛ head SHA باید ثابت و مسیر فایل نسبی امن باشد.
+پرسش تاریخی، مرز بازه و جداسازی tenant را با نمونهٔ قطعی بسنجید؛ سپس Graphiti واقعی را روی دادهٔ مصنوعی اجرا کنید. زمان فعالیت: ۲۵ دقیقه. نصب سرویس و مدل پیش از کلاس است.
+## مسیر قطعی
 ```sh
-python3 labs/session-6/runner.py
-python3 labs/session-6/runner.py
+python3 labs/session-6/memory.py
 python3 -m unittest discover -s labs/session-6 -p 'test_*.py'
-python3 labs/session-6/review_plan.py labs/session-6/github.json
-python3 labs/session-6/review_plan.py labs/session-6/gitlab.json
 ```
-## اجرای رسمی Codex و Claude
+خروجی past باید Sara و current باید Leila باشد. زمان ثبت خبر دوم پنجم فوریه است ولی اعتبار مالکیت از اول فوریه شروع شده. بازه‌ها شروع شامل و پایان غیرشامل هستند.
+## گام‌ها — هر گام ۵ دقیقه
+1. Fact و فیلدهای valid_from، valid_to، recorded_at و source را توضیح دهید.
+2. در لحظهٔ اول فوریه query بگیرید؛ تنها Leila باید برگردد. پیش از آغاز تاریخچه نتیجه خالی است.
+3. tenant دیگری با نام سرویس مشابه اضافه کنید؛ query نباید نشت کند. tenant خالی باید رد شود.
+4. pack_context را با سقف ۱۴ کاراکتر و چند قطعه اجرا کنید. قطعهٔ ناقص نباید وارد شود. این بودجهٔ کاراکتری است و شمارش دقیق توکن نیست.
+5. Graphiti واقعی را اجرا یا قرارداد اتصال آن را بازبینی کنید و وضعیت آزمون زنده را صریح ثبت کنید.
+## Graphiti واقعی
+نمونهٔ memory.py فقط یک مدل آموزشی قطعی است، نه پیاده‌سازی Graphiti. برای Graphiti به Neo4j و اعتبار مدل استخراج و embedding نیاز دارید. به‌صورت پیش‌فرض Graphiti از تنظیمات OpenAI SDK استفاده می‌کند؛ سازگاری مدل‌های جایگزین را از مستند رسمی بررسی کنید.
 ```sh
-codex login status
-codex exec --sandbox read-only --output-schema labs/session-6/report.schema.json -o report.json "Review this repository without editing; cite file evidence and state which tests were run"
-claude -p "Explain this repository without editing files" --allowedTools Read --output-format json
+.venv/bin/pip install -r requirements-live.txt
+docker compose -f labs/session-6/compose.yaml up -d
+.venv/bin/python labs/session-6/graphiti_live.py
 ```
-CLI محلی می‌تواند از ورود رسمی واجد شرایط استفاده کند. codex exec از credential ذخیره‌شده بهره می‌برد. API و اشتراک صورت‌حساب و سیاست جدا دارند. توکن مرورگر استخراج نشود و به gateway شخص ثالث داده نشود. برای CI مسیر رسمی مستند همان محصول و نوع حساب را انتخاب کنید؛ مثال سایت، اجرای پولی عامل را خودکار زمان‌بندی نمی‌کند.
-## خواندن PR و MR واقعی — اختیاری و فقط مخزن مجاز
-```sh
-gh pr view 123 --repo OWNER/REPO --json headRefOid,files,title
-gh pr diff 123 --repo OWNER/REPO
-glab mr view 123 --repo OWNER/REPO --output json
-glab mr diff 123 --repo OWNER/REPO
-```
-OWNER/REPO و شماره‌ها پارامتر آموزشی‌اند و باید با مقصد مجاز جایگزین شوند. schema خروجی دو CLI را مستقیماً یکسان فرض نکنید؛ normalize و head SHA را بررسی کنید. تمرین هیچ کامنت، merge یا push خودکار انجام نمی‌دهد.
-## الگوی زمان‌بندی قابل بررسی
-برای یک runner خصوصی و از پیش احراز هویت‌شده می‌توانید پس از تست از cron استفاده کنید. نمونهٔ زیر ساعت ۰۹:۰۰ UTC است، نه منطقهٔ زمانی دستگاه:
-```cron
-0 9 * * 1-5 cd /ABS/TRUSTED/CHECKOUT && /ABS/PYTHON /ABS/TRUSTED/CHECKOUT/job.py
-```
-این خط در پروژه نصب نشده است. job.py باید قرارداد مشخص، timeout، قفل و log پالایش‌شده داشته باشد. در GitHub Actions نیز concurrency و permissions را صریح کنید؛ کد fork را با secrets اجرا نکنید و از pull_request_target برای اجرای checkout نامطمئن استفاده نکنید.
-## پاسخ و محدودیت‌ها
-runner بار اول succeeded و بار دوم skipped می‌دهد. تست شکست failed، timeout unknown و running قدیمی unknown است. retry تنها برای failed/unknown و با retry=True مجاز است؛ بررسی اثر بیرونی مسئولیت caller است. این نمونه برای یک میزبان POSIX است؛ قفل fcntl و فایل محلی جای ledger توزیع‌شده، queue و sandbox تولیدی را نمی‌گیرند. stdout در این تمرین کوچک است؛ در محیط واقعی حجم خروجی را محدود و secret را پالایش کنید.
-## Runbook
-ابتدا کار تکراری را متوقف کنید؛ commit و run ID را ثبت کنید؛ در مقصد بررسی کنید آیا PR یا اثر مورد نظر ایجاد شده؛ سپس retry یا rollback را آگاهانه اجرا کنید. پایان بازیابی فقط با آزمون و مشاهدهٔ نتیجه تأیید می‌شود. پاک کردن ledger به‌عنوان راه‌حل عادی مجاز نیست.
-## معیار تحویل
-هفت آزمون runner و normalization، شاهد skipped، توضیح unknown و برنامهٔ review برای دو میزبان. برای پروژهٔ نهایی از rubric سیلابس استفاده کنید.
+NEO4J_PASSWORD را با رمز خصوصی انتخابی خود تنظیم کنید؛ این رمز برای دیتابیس تازه است و در فایل‌ها نوشته نمی‌شود. OPENAI_API_KEY باید در محیط موجود باشد. NEO4J_URI پیش‌فرض bolt://localhost:7687 و کاربر پیش‌فرض neo4j است. پورت‌ها فقط به loopback متصل‌اند. از دادهٔ خصوصی استفاده نکنید.
+## پاسخ مورد انتظار Graphiti
+دو episode در group_id=advanced-course-lab ingest می‌شوند و جستجو واقعیت‌های مرتبط با مالکیت را چاپ می‌کند. خروجی استخراج مدل الزاماً متن ثابت نیست؛ منبع، زمان و رابطهٔ ابطال را در گراف بررسی کنید. اجرای مکرر می‌تواند episode تکراری بسازد؛ برای تمرین از دیتابیس اختصاصی استفاده کنید و پیش از تکرار دادهٔ موجود را بررسی کنید.
+## تمرین cache
+دستور ثابت را پیش از دادهٔ متغیر بچینید. دو درخواست هم‌پیشوند به سرویس پشتیبان caching بفرستید و usage cached_tokens را بررسی کنید. کاهش latency به‌تنهایی اثبات cache hit نیست. ظرفیت، حداقل طول و ماندگاری به مدل و سرویس وابسته‌اند؛ هیچ درصد صرفه‌جویی تضمین نشده است.
+## محدودیت و معیار تحویل
+نمونهٔ Memory تاریخ اعتبار را فیلتر می‌کند ولی query تاریخی بر پایهٔ «دانش موجود در زمان ثبت گذشته» پیاده نمی‌کند؛ recorded_at برای توضیح محور دوم نگه داشته شده است. سه آزمون قطعی، یک آزمون مرز افزوده، عدم نشت tenant و گزارش بودجه/کیفیت لازم‌اند. Graphiti و cache واقعی فقط با مشاهدهٔ سرویس تأیید می‌شوند.
