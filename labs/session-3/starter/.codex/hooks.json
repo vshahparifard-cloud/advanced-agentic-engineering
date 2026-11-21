@@ -1,0 +1,28 @@
+{
+  "description": "Session 3 lab: the same four hooks as .claude/settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [{"type": "command", "command": "node \"$(git rev-parse --show-toplevel)/hooks/context.mjs\""}]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|Bash",
+        "hooks": [{"type": "command", "command": "node \"$(git rev-parse --show-toplevel)/hooks/guard.mjs\"", "timeout": 10}]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{"type": "command", "command": "node \"$(git rev-parse --show-toplevel)/hooks/feedback.mjs\"", "timeout": 30}]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{"type": "command", "command": "node \"$(git rev-parse --show-toplevel)/hooks/stop-gate.mjs\"", "timeout": 60, "statusMessage": "Checking the whole site"}]
+      }
+    ]
+  }
+}

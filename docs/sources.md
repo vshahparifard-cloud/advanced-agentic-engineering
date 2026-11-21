@@ -12,27 +12,42 @@
 - [ساخت مهارت](https://developers.openai.com/codex/skills/): SKILL.md، توصیف کاربرد و منابع همراه.
 - [مفهوم مهارت در پلاگین](https://developers.openai.com/plugins/concepts/skills): گردش‌کار در کنار ابزارهای MCP.
 - [بسته‌بندی پلاگین](https://developers.openai.com/api/docs/guides/agents-api/tools/plugins): manifest نمونه با .codex-plugin/plugin.json. سازگاری فرمت بسته باید برای میزبان مورد استفاده تأیید شود.
-- [مرجع hook در Claude](https://code.claude.com/docs/en/hooks): رخداد PreToolUse و رفتار hook. نمونهٔ این مخزن فقط ابزار Edit را پوشش می‌دهد.
+- [مرجع hook در Claude](https://code.claude.com/docs/en/hooks): رخداد PreToolUse و رفتار hook. نمونهٔ این جلسه فقط ابزار Edit را پوشش می‌دهد؛ جلسهٔ سوم هوک را کامل و برای Claude Code و Codex آموزش می‌دهد.
 - [Remote Control در Claude](https://code.claude.com/docs/en/remote-control): قابلیت رسمی همان محصول؛ نام و فرمان آن را به Codex تعمیم ندهید.
 
-## جلسهٔ سوم — MCP
-- [ساخت server](https://modelcontextprotocol.io/docs/develop/build-server): ابزار، resource و انضباط transport.
-- [SDK رسمی Python](https://github.com/modelcontextprotocol/python-sdk): FastMCP و client چرخهٔ initialize.
-- [authorization استاندارد](https://modelcontextprotocol.io/specification/latest/basic/authorization): جریان HTTP و حدود استفاده از credential در STDIO.
-- [اتصال Codex](https://developers.openai.com/codex/mcp/): ثبت server و تنظیم میزبان.
-- [اتصال Claude](https://code.claude.com/docs/en/mcp): transport و مدیریت server در میزبان Claude.
+## جلسهٔ سوم — هوک در Claude Code و Codex
+بازبینی: ۲۱ نوامبر ۲۰۲۶.
+- [مرجع هوک Claude Code](https://code.claude.com/docs/en/hooks): رخدادها، matcher، ورودی JSON، معنای exit 0 و exit 2، خروجی JSON، `stop_hook_active` و نکته‌های امنیتی.
+- [راهنمای هوک Claude Code](https://code.claude.com/docs/en/hooks-guide): نمونه‌های فرمت خودکار، اعلان و محافظت از فایل.
+- [مرجع هوک Codex](https://learn.chatgpt.com/docs/hooks): مکان hooks.json، trust با /hooks، ورودی `apply_patch` در `tool_input.command`، Stop با خروجی JSON و فعال بودن پیش‌فرض.
+- [مرجع config.toml در Codex](https://learn.chatgpt.com/docs/config-file/config-reference): کلید `features.hooks`، نام مستعار قدیمی `codex_hooks` و گزینهٔ `notify`.
+- نسخه و تاریخ ورود هوک به Codex در منابع رسمی خوانده‌شده نیامده است؛ آن را روی اسلاید ادعا نکنید.
 
-## جلسهٔ چهارم — درگاه و trace
+## جلسهٔ چهارم — هارنس‌ها و مدل‌های جایگزین
+بازبینی: ۲۱ نوامبر ۲۰۲۶. این ابزارها سریع تغییر می‌کنند؛ نسخه و نام مدل را پیش از کلاس دوباره بررسی کنید.
+- [Claude Code و درگاه مدل](https://code.claude.com/docs/en/llm-gateway): مسیر مدل غیر Claude کار می‌کند ولی پشتیبانی و ممیزی نمی‌شود.
+- [متغیرهای محیطی Claude Code](https://code.claude.com/docs/en/env-vars): ANTHROPIC_BASE_URL، نام‌های مستعار مدل و CLAUDE_CODE_SUBAGENT_MODEL.
+- [DeepSeek برای Claude Code](https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code) و [جدول سازگاری API Anthropic در DeepSeek](https://api-docs.deepseek.com/guides/anthropic_api).
+- [DeepSeek برای Codex](https://api-docs.deepseek.com/quick_start/agent_integrations/codex) و [تنظیمات پیشرفتهٔ Codex](https://learn.chatgpt.com/docs/config-file/config-advanced): model_providers و Responses API.
+- [حذف wire_api = chat در Codex](https://github.com/openai/codex/discussions/7782).
+- [OpenRouter برای Claude Code](https://openrouter.ai/docs/guides/coding-agents/claude-code-integration) و [OpenRouter برای Codex](https://openrouter.ai/docs/cookbook/coding-agents/codex-cli).
+- [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): پیش‌نمایش، MIT، همه‌چیز پلاگین.
+- [Hermes Agent](https://hermes-agent.nousresearch.com/docs): دستیار همیشه‌روشن Nous Research.
+- [OpenCode](https://opencode.ai/docs/)، [Kilo Code](https://kilo.ai/docs) و [Aider](https://github.com/Aider-AI/aider).
+- [Code Mode در Cloudflare](https://blog.cloudflare.com/code-mode/) و [اجرای کد با MCP](https://www.anthropic.com/engineering/code-execution-with-mcp).
+- [قواعد استفادهٔ Claude Code](https://code.claude.com/docs/en/legal-and-compliance): اشتراک مصرفی در ابزار شخص ثالث مجاز نیست. [ورود با ChatGPT در برنامه‌های متن‌باز](https://developers.openai.com/siwc/token-sharing-open-source).
+
+## جلسهٔ پنجم — درگاه و trace
 - [OpenRouter Quickstart](https://openrouter.ai/docs/quickstart): endpoint و قرارداد فراخوانی. قیمت و مدل از کاتالوگ حساب انتخاب می‌شود.
 - [LiteLLM fallback](https://docs.litellm.ai/docs/proxy/reliability): مسیر جایگزین بین گروه مدل‌ها و retry محدود.
 - [Langfuse tracing](https://langfuse.com/docs/observability/get-started): span، generation و flush در فرایند کوتاه‌عمر.
 
-## جلسهٔ پنجم — حافظه و cache
+## جلسهٔ ششم — حافظه و cache
 - [Graphiti رسمی](https://github.com/getzep/graphiti): گراف دانش پویا، episode و ذخیره‌ساز.
 - [مثال‌های رسمی Graphiti](https://github.com/getzep/graphiti/tree/main/examples/quickstart): امضای add_episode و search در نسخهٔ مورد استفاده.
 - [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching): اهمیت پیشوند ثابت و سنجش cached tokens؛ بدون تضمین نرخ صرفه‌جویی.
 
-## جلسهٔ ششم — اجرای Headless و انتشار
+## جلسهٔ هفتم — اجرای Headless و انتشار
 - [Codex non-interactive](https://developers.openai.com/codex/noninteractive/): استفاده از احراز هویت ذخیره‌شده و مسیرهای رسمی اتوماسیون. امکان حساب و سیاست سازمان بررسی شود.
 - [Claude programmatic CLI](https://code.claude.com/docs/en/headless): -p، output-format و کنترل ابزارها.
 - [Claude authentication](https://code.claude.com/docs/en/authentication): روش ورود افراد و سازمان‌ها. دسترسی CLI اشتراکی را مجوز SDK شخص ثالث یا سرویس چندکاربره ندانید.
@@ -41,9 +56,10 @@
 ## وضعیت قابلیت و ادعای دوره
 | قابلیت | پیاده‌سازی این مخزن | نیاز به سرویس زنده |
 | --- | --- | --- |
-| سایت و شش ارائه | HTML/CSS/JS مستقل با دادهٔ محلی | خیر |
-| MCP | server و client واقعی SDK، فقط خواندن | نصب dependency؛ مدل لازم نیست |
+| سایت و هفت ارائه | HTML/CSS/JS مستقل با دادهٔ محلی | خیر |
+| هوک | چهار هوک مشترک Claude و Codex با آزمون ورودی JSON | آزمون قطعی خیر؛ اجرای زنده نیاز به CLI و ورود دارد |
 | مهارت و validator | فایل مهارت، پلاگین نمونه و آزمون قرارداد | انتخاب خودکار مهارت نیاز به میزبان دارد |
+| هارنس و API جایگزین | سرور جعلی Anthropic و نمونهٔ تنظیم Claude Code، Codex و OpenCode | سرور جعلی خیر؛ DeepSeek و OpenRouter کلید لازم دارند |
 | Gateway | شبیه‌ساز قطعی و config واقعی LiteLLM | مسیر واقعی نیاز به provider و کلید دارد |
 | Langfuse | اسکریپت instrumentation واقعی | پروژه و credential لازم است |
 | حافظه | مدل قطعی زمان و tenant | خیر |

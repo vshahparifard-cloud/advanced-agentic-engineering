@@ -1,0 +1,22 @@
+body {
+  font-family: Vazirmatn, Tahoma, sans-serif;
+  margin: 0;
+  background: #fbf8f3;
+  color: #2b2118;
+}
+
+.site-header {
+  padding-block: 2rem;
+  padding-inline: 1.5rem;
+  text-align: start;
+}
+
+.books {
+  list-style: none;
+  padding-inline: 1.5rem;
+}
+
+.price {
+  margin-inline-start: 0.75rem;
+  color: #8a5a2b;
+}

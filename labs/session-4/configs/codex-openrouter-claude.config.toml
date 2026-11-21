@@ -1,0 +1,13 @@
+# Codex harness + a Claude model through OpenRouter (openrouter.ai Codex CLI cookbook).
+# Copy to ~/.codex/openrouter.config.toml and run: codex --profile openrouter
+model_provider = "openrouter"
+model = "~anthropic/claude-sonnet-latest"
+model_reasoning_effort = "high"
+
+[model_providers.openrouter]
+name = "OpenRouter"
+base_url = "https://openrouter.ai/api/v1"
+
+[model_providers.openrouter.auth]
+command = "sh"
+args = ["-c", "echo $OPENROUTER_API_KEY"]

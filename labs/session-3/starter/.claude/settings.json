@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [{"type": "command", "command": "node \"$CLAUDE_PROJECT_DIR\"/hooks/context.mjs"}]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|Bash",
+        "hooks": [{"type": "command", "command": "node \"$CLAUDE_PROJECT_DIR\"/hooks/guard.mjs", "timeout": 10}]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{"type": "command", "command": "node \"$CLAUDE_PROJECT_DIR\"/hooks/feedback.mjs", "timeout": 30}]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{"type": "command", "command": "node \"$CLAUDE_PROJECT_DIR\"/hooks/stop-gate.mjs", "timeout": 60}]
+      }
+    ]
+  }
+}

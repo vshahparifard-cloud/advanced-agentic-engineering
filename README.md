@@ -1,5 +1,5 @@
 # Advanced Agentic AI Engineering
-دورهٔ فارسی و RTL مهندسی پیشرفتهٔ ایجنت‌های هوش مصنوعی: **۶ جلسهٔ دوساعته، ۱۴۷ اسلاید محتوایی، ۷۲۰ دقیقه**.
+دورهٔ فارسی و RTL مهندسی پیشرفتهٔ ایجنت‌های هوش مصنوعی: **۷ جلسهٔ دوساعته، ۱۷۱ اسلاید محتوایی، ۸۴۰ دقیقه**.
 
 - وب‌سایت: https://vshahparifard-cloud.github.io/advanced-agentic-engineering/
 - منبع: https://github.com/vshahparifard-cloud/advanced-agentic-engineering
@@ -14,26 +14,20 @@ npm run dev
 ابتدا build با check تولید می‌شود. dev خروجی dist را روی http://localhost:4173 سرو می‌کند. برای ویرایش، پس از تغییر npm run build اجرا کنید.
 
 ## ساختار
-- content/course.json: منبع شش ارائه؛ ۲۴ تا ۲۷ اسلاید، زمان، یادداشت، نمودار و سنجش برای هر جلسه.
+- content/course.json: منبع هفت ارائه؛ ۲۴ تا ۲۷ اسلاید، زمان، یادداشت، نمودار و سنجش برای هر جلسه.
 - assets: رابط فارسی، نمایشگر تعاملی، فونت محلی و سبک چاپ.
-- labs/session-1 تا session-6: پیاده‌سازی، آزمون، راهنمای گام‌به‌گام و پاسخ مرجع.
-- docs: سیلابس، شش دفترچهٔ مدرس، معماری، منابع و rubric پروژه.
-- scripts/build.mjs: ساخت مستقل HTML، بستهٔ ZIP و شش مسیر ارائه.
+- labs/session-1 تا session-7: پیاده‌سازی، آزمون، راهنمای گام‌به‌گام و پاسخ مرجع.
+- docs: سیلابس، هفت دفترچهٔ مدرس، معماری، منابع و rubric پروژه.
+- scripts/build.mjs: ساخت مستقل HTML، بستهٔ ZIP و هفت مسیر ارائه.
 - .github/workflows/pages.yml: آزمون، ساخت و انتشار GitHub Pages.
 
 ## آزمایشگاه‌ها
-۱. نشست و قرارداد Codex؛ ۲. مهارت، validator، پلاگین و hook؛ ۳. سرور و client واقعی MCP؛ ۴. fallback قطعی و اتصال واقعی OpenRouter/LiteLLM/Langfuse؛ ۵. حافظهٔ زمانی قطعی و اتصال Graphiti؛ ۶. runner محدود، PR/MR normalization و recovery.
+۱. نشست و قرارداد Codex؛ ۲. مهارت، validator، پلاگین و hook؛ ۳. چهار هوک مشترک Claude Code و Codex با آزمون ورودی JSON؛ ۴. سرور جعلی Anthropic و تنظیم Claude Code و Codex با DeepSeek و OpenRouter؛ ۵. fallback قطعی و اتصال واقعی OpenRouter/LiteLLM/Langfuse؛ ۶. حافظهٔ زمانی قطعی و اتصال Graphiti؛ ۷. runner محدود، PR/MR normalization و recovery.
 
-آزمون MCP نیاز به نصب dependency دارد:
-```sh
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python labs/session-3/smoke.py
-```
 آزمون‌های سایت، Node و Python در npm run check اجرا می‌شوند. سرویس‌های پولی و Docker در CI عمومی اجرا نمی‌شوند. دستورهای مسیر زنده در README هر آزمایشگاه‌اند. فایل requirements-live.txt برای آن مسیرهاست؛ هیچ کلید یا دادهٔ خصوصی در سایت نیاز نیست.
 
 ## قابلیت‌های ارائه
-نمایش ۶ deck با لینک مستقل، کلیدهای جهت، انتخاب اسلاید، فهرست، یادداشت مدرس، پرسش و بازخورد، چاپ/PDF، کپی فرمان و ادامه از اسلاید قبلی. پیشرفت فقط در localStorage مرورگر ذخیره می‌شود. یادداشت‌ها عمومی‌اند؛ هیچ محتوای محرمانه‌ای در آن‌ها قرار ندهید.
+نمایش ۷ deck با لینک مستقل، کلیدهای جهت، انتخاب اسلاید، فهرست، یادداشت مدرس، پرسش و بازخورد، چاپ/PDF، کپی فرمان و ادامه از اسلاید قبلی. پیشرفت فقط در localStorage مرورگر ذخیره می‌شود. یادداشت‌ها عمومی‌اند؛ هیچ محتوای محرمانه‌ای در آن‌ها قرار ندهید.
 
 ## انتشار
 در Settings → Pages منبع GitHub Actions را انتخاب کنید. push روی main، workflow را اجرا می‌کند. نیاز: pages:write و id-token:write برای deploy، و contents:read. artifact فقط dist است؛ labs و docs به‌صورت بستهٔ آموزشی عمومی عرضه می‌شوند. کد هیچ فراخوان پولی در مرورگر انجام نمی‌دهد.
